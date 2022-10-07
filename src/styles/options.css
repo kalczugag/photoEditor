@@ -1,0 +1,127 @@
+.options-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid gray;
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.filters-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.filters-title,
+.rf-title {
+    font-weight: 500;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.filters-title,
+.rf-title {
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.filters-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 6px;
+    row-gap: 6px;
+    margin-top: 12px;
+}
+
+#brightness,
+#saturation,
+#inversion,
+#grayscale {
+    background-color: white;
+    color: rgb(44, 44, 44);
+    border: 1px solid rgb(107, 107, 107);
+    border-radius: 4px;
+    padding: 10px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+#brightness:hover,
+#saturation:hover,
+#inversion:hover,
+#grayscale:hover {
+    background-color: rgb(243, 243, 243);
+}
+
+#brightness:active,
+#saturation:active,
+#inversion:active,
+#grayscale:active {
+    background-color: rgb(0, 110, 212);
+    color: white;
+    border: none;
+}
+
+.filter-range-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.filter-range-title {
+    font-size: 15px;
+    color: rgb(44, 44, 44);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.rot-flip-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.rf-buttons {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#rotate-left,
+#rotate-right,
+#flip-horizontal,
+#flip-vertical {
+    height: 25px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    background-color: white;
+    color: rgb(44, 44, 44);
+    border: 1px solid rgb(107, 107, 107);
+    border-radius: 4px;
+    padding: 18px 30px;
+    cursor: pointer;
+}
+
+#rotate-left:hover,
+#rotate-right:hover,
+#flip-horizontal:hover,
+#flip-vertical:hover {
+    background-color: rgb(243, 243, 243);
+}
+
+#flip-horizontal,
+#flip-vertical {
+}

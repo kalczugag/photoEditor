@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Easy Image Editor</title>
+        <link rel="stylesheet" href="../src/styles/general.css" />
+        <link rel="stylesheet" href="../src//styles/wrapper.css" />
+        <link rel="stylesheet" href="../src/styles/options.css" />
+        <script
+            src="https://kit.fontawesome.com/827bc51ef5.js"
+            crossorigin="anonymous"
+        ></script>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="section-container">
+                <section class="left">
+                    <div class="title">Easy Image Editor</div>
+                    <div class="options-container">
+                        <div class="filters-container">
+                            <div class="filters-title">Filters</div>
+                            <div class="filters-grid">
+                                <button id="brightness">Brightness</button>
+                                <button id="saturation">Saturation</button>
+                                <button id="inversion">Inversion</button>
+                                <button id="grayscale">Grayscale</button>
+                            </div>
+                        </div>
+                        <div class="filter-range-container">
+                            <div class="filter-range-title">
+                                <div class="f-title">Brightness</div>
+                                <div class="percent">100%</div>
+                            </div>
+                            <input type="range" id="range" />
+                        </div>
+                        <div class="rot-flip-container">
+                            <div class="rf-title">Rotate & Flip</div>
+                            <div class="rf-buttons">
+                                <button id="rotate-left">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                </button>
+                                <button id="rotate-right">
+                                    <i
+                                        class="fa-sharp fa-solid fa-rotate-right"
+                                    ></i>
+                                </button>
+                                <button id="flip-horizontal">
+                                    <i class="fa-regular fa-left-right"></i>
+                                </button>
+                                <button id="flip-vertical">
+                                    <i class="fa-regular fa-up-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="rigth"></section>
+            </div>
+            <footer class="footer">
+                <div>
+                    <button id="reset">RESET FILTERS</button>
+                </div>
+                <div>
+                    <button id="img-choose">CHOOSE IMAGE</button>
+                    <button id="img-save">SAVE IMAGE</button>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>
