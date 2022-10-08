@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border: 1px solid gray;
+    box-shadow: 0 0 5px 2px rgb(0, 0, 0, 0.2);
     border-radius: 6px;
     padding: 20px;
 }
@@ -47,22 +47,6 @@
     padding: 10px;
     transition: 0.2s;
     cursor: pointer;
-}
-
-#brightness:hover,
-#saturation:hover,
-#inversion:hover,
-#grayscale:hover {
-    background-color: rgb(243, 243, 243);
-}
-
-#brightness:active,
-#saturation:active,
-#inversion:active,
-#grayscale:active {
-    background-color: rgb(0, 110, 212);
-    color: white;
-    border: none;
 }
 
 .filter-range-container {

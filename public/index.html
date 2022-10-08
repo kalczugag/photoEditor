@@ -8,6 +8,8 @@
         <link rel="stylesheet" href="../src/styles/general.css" />
         <link rel="stylesheet" href="../src//styles/wrapper.css" />
         <link rel="stylesheet" href="../src/styles/options.css" />
+        <link rel="stylesheet" href="../src/styles/footer-buttons.css" />
+        <link rel="stylesheet" href="../src/styles/image-preview.css" />
         <script
             src="https://kit.fontawesome.com/827bc51ef5.js"
             crossorigin="anonymous"
@@ -22,18 +24,46 @@
                         <div class="filters-container">
                             <div class="filters-title">Filters</div>
                             <div class="filters-grid">
-                                <button id="brightness">Brightness</button>
-                                <button id="saturation">Saturation</button>
-                                <button id="inversion">Inversion</button>
-                                <button id="grayscale">Grayscale</button>
+                                <button
+                                    id="brightness"
+                                    onclick="filterButtons(this.id)"
+                                >
+                                    Brightness
+                                </button>
+                                <button
+                                    id="saturation"
+                                    onclick="filterButtons(this.id)"
+                                >
+                                    Saturation
+                                </button>
+                                <button
+                                    id="inversion"
+                                    onclick="filterButtons(this.id)"
+                                >
+                                    Inversion
+                                </button>
+                                <button
+                                    id="grayscale"
+                                    onclick="filterButtons(this.id)"
+                                >
+                                    Grayscale
+                                </button>
                             </div>
                         </div>
                         <div class="filter-range-container">
                             <div class="filter-range-title">
-                                <div class="f-title">Brightness</div>
-                                <div class="percent">100%</div>
+                                <div class="f-title"></div>
+                                <div class="percent"></div>
                             </div>
-                            <input type="range" id="range" />
+                            <input
+                                id="range"
+                                type="range"
+                                min="0"
+                                max="200"
+                                value="100"
+                                (change)="getSliderValue(this.value)"
+                                oninput="getSliderValue(this.value)"
+                            />
                         </div>
                         <div class="rot-flip-container">
                             <div class="rf-title">Rotate & Flip</div>
@@ -56,17 +86,30 @@
                         </div>
                     </div>
                 </section>
-                <section class="rigth"></section>
+                <section class="rigth">
+                    <img id="pre-image" src="" />
+                    <canvas id="filtered-image"></canvas>
+                </section>
             </div>
-            <footer class="footer">
+            <footer>
                 <div>
-                    <button id="reset">RESET FILTERS</button>
+                    <button id="button-reset">RESET FILTERS</button>
                 </div>
                 <div>
-                    <button id="img-choose">CHOOSE IMAGE</button>
-                    <button id="img-save">SAVE IMAGE</button>
+                    <label for="file-upload" id="button-img-choose"
+                        >CHOOSE IMAGE</label
+                    >
+                    <input
+                        id="file-upload"
+                        type="file"
+                        accept="image/*"
+                        onchange="readURL(this)"
+                    />
+                    <button id="button-img-save">SAVE IMAGE</button>
                 </div>
             </footer>
         </div>
+
+        <script src="../dist/main.js"></script>
     </body>
 </html>
