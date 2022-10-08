@@ -1,10 +1,13 @@
-#pre-image,
-#filtered-image {
+#pre-image {
     position: relative;
-    top: 46px;
-    right: 30px;
-    height: 355px;
-    object-fit: cover;
+    top: 48px;
+    left: 50px;
+    max-height: 352px;
+    max-width: 675px;
     border-radius: 6px;
     box-shadow: 0 0 5px 2px rgb(0, 0, 0, 0.2);
+}
+
+#filtered-image {
+    display: none;
 }
