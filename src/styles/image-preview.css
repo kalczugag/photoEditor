@@ -10,4 +10,5 @@
 
 #filtered-image {
     display: none;
+    z-index: 100;
 }
