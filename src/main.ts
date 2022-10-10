@@ -11,10 +11,9 @@ const rangeSelect = document.querySelector(".f-title") as HTMLDivElement;
 const range = document.getElementById("range") as HTMLInputElement;
 
 window.onload = () => {
-    rangeSelect.innerHTML = "";
-    rangePercentDisplay.innerHTML = "";
-    range.setAttribute("max", "0");
     localStorage.clear();
+    resetLocalStorageValues();
+    getSliderValue(range.value);
 };
 
 let url: string = "";
@@ -29,7 +28,6 @@ const readURL = (input: HTMLInputElement) => {
         };
         reader.readAsDataURL(input.files[0]);
     }
-    // drawImage(url);
 };
 
 const filterButtons = (input: string) => {
@@ -38,7 +36,6 @@ const filterButtons = (input: string) => {
         rangeSelect.innerHTML = "Brightness";
         setFilterAttr(input);
         getSliderValue(range.value);
-        // applyFilterToCanvas(`"${input}"`, range.value);
     } else if (input === "saturation") {
         buttonsSet(saturationBtn);
         rangeSelect.innerHTML = "Saturation";
@@ -89,7 +86,6 @@ const setFilterAttr = (element: string) => {
         range.setAttribute("data-filter", "brightness");
         range.setAttribute("data-scale", "%");
         range.setAttribute("max", "200");
-        range.value = "100";
         brightnessValue = JSON.parse(
             localStorage.getItem("brightness") || "{}"
         );
@@ -98,31 +94,24 @@ const setFilterAttr = (element: string) => {
         range.setAttribute("data-filter", "saturate");
         range.setAttribute("data-scale", "");
         range.setAttribute("max", "200");
-        range.value = "1";
         saturationValue = JSON.parse(localStorage.getItem("saturate") || "{}");
         range.value = saturationValue;
     } else if (element === "inversion") {
         range.setAttribute("data-filter", "invert");
         range.setAttribute("data-scale", "%");
         range.setAttribute("max", "100");
-        range.value = "0";
         inversionValue = JSON.parse(localStorage.getItem("invert") || "{}");
         range.value = inversionValue;
     } else if (element === "grayscale") {
         range.setAttribute("data-filter", "grayscale");
         range.setAttribute("data-scale", "%");
         range.setAttribute("max", "100");
-        range.value = "0";
         grayscaleValue = JSON.parse(localStorage.getItem("grayscale") || "{}");
         range.value = grayscaleValue;
     }
 };
 
 let originalImage = document.getElementById("pre-image") as HTMLImageElement;
-let filteredImage = document.getElementById(
-    "filtered-image"
-) as HTMLCanvasElement;
-
 const applyFilter = () => {
     let computedFilters: string = "";
     computedFilters +=
@@ -134,25 +123,17 @@ const applyFilter = () => {
     originalImage.style.filter = computedFilters;
 };
 
-const context: any = filteredImage.getContext("2d");
-const applyFilterToCanvas = (style: string, value: number) => {
-    // drawImage(url);
-    const context: any = filteredImage.getContext("2d");
-    context.fillStyle = style;
-    filteredImage.toDataURL("image/png");
-};
-
-const drawImage = (url: string) => {
-    const image = new Image();
-    image.src = url;
-    image.onload = () => {
-        context.drawImage(image, 0, 0);
-    };
-    filteredImage.style.display = "block";
-};
-
 const valuesToLocalStorage = (item: any, value: string) => {
     localStorage.setItem(`${item}`, JSON.stringify(value));
 };
 
-//filter wrong values on default load!!! to fix
+const resetLocalStorageValues = () => {
+    localStorage.setItem("brightness", JSON.stringify("100"));
+    localStorage.setItem("saturate", JSON.stringify("1"));
+    localStorage.setItem("invert", JSON.stringify("0"));
+    localStorage.setItem("grayscale", JSON.stringify("0"));
+    rangeSelect.innerHTML = "Brightness";
+    buttonsSet(brightBtn);
+    setFilterAttr(brightBtn.id);
+    getSliderValue(range.value);
+};
