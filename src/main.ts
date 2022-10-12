@@ -16,15 +16,14 @@ window.onload = () => {
     getSliderValue(range.value);
 };
 
-let url: string = "";
 const readURL = (input: HTMLInputElement) => {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
         reader.onload = (e: any) => {
-            url = e.target.result;
             document
                 .querySelector("#pre-image")
                 ?.setAttribute("src", e.target.result);
+            setupCanvas(e.target.result);
         };
         reader.readAsDataURL(input.files[0]);
     }
@@ -121,6 +120,19 @@ const applyFilter = () => {
         range.getAttribute("data-scale") +
         ")";
     originalImage.style.filter = computedFilters;
+};
+
+const setupCanvas = (src: string) => {
+    let canvas = document.getElementById("filtered-image") as HTMLCanvasElement;
+    if (canvas.getContext) {
+        let ctx: any = canvas.getContext("2d");
+        const img = new Image();
+        img.onload = () => {
+            // (image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+            ctx.drawImage(img, 15, 25);
+        };
+        img.setAttribute("src", src);
+    }
 };
 
 const valuesToLocalStorage = (item: any, value: string) => {
