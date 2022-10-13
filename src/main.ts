@@ -110,8 +110,14 @@ const setFilterAttr = (element: string) => {
     }
 };
 
-let originalImage = document.getElementById("pre-image") as HTMLImageElement;
+const canvas = document.getElementById("filtered-image") as HTMLCanvasElement;
+const originalImage = document.getElementById("pre-image") as HTMLImageElement;
+
 const applyFilter = () => {
+    brightnessValue = JSON.parse(localStorage.getItem("brightness") || "{}");
+    saturationValue = JSON.parse(localStorage.getItem("saturate") || "{}");
+    inversionValue = JSON.parse(localStorage.getItem("invert") || "{}");
+    grayscaleValue = JSON.parse(localStorage.getItem("grayscale") || "{}");
     let computedFilters: string = "";
     computedFilters +=
         range.getAttribute("data-filter") +
@@ -120,18 +126,56 @@ const applyFilter = () => {
         range.getAttribute("data-scale") +
         ")";
     originalImage.style.filter = computedFilters;
+    // let ctx: any = canvas.getContext("2d");
+    // ctx.filter.brightness(brightnessValue);
+    // ctx.filter.saturation(saturationValue);
+    // ctx.filter.inversion(inversionValue);
+    // ctx.filter.grayscale(grayscaleValue);
 };
 
 const setupCanvas = (src: string) => {
-    let canvas = document.getElementById("filtered-image") as HTMLCanvasElement;
-    if (canvas.getContext) {
-        let ctx: any = canvas.getContext("2d");
-        const img = new Image();
-        img.onload = () => {
-            // (image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
-            ctx.drawImage(img, 15, 25);
-        };
-        img.setAttribute("src", src);
+    const original = new MarvinImage();
+    // if (canvas.getContext) {
+    //     let ctx: any = canvas.getContext("2d");
+    //     ctx.canvas.width = window.innerWidth;
+    //     ctx.canvas.height = window.innerHeight;
+    //     const img = new Image();
+    //     img.onload = () => {
+    //         // (image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+    //         ctx.drawImage(img, 0, 0, window.innerWidth, window.innerHeight);
+    //     };
+    //     img.src = src;
+    // }
+    const image = new MarvinImage(original.getWidth(), original.getHeight());
+    image.load(src, () => {
+        grayscale(original, image);
+        image.draw(canvas);
+    });
+
+    function grayscale(imageIn: any, imageOut: any) {
+        for (var y = 0; y < imageIn.getHeight(); y++) {
+            for (var x = 0; x < imageIn.getWidth(); x++) {
+                var red = imageIn.getIntComponent0(x, y);
+                var green = imageIn.getIntComponent1(x, y);
+                var blue = imageIn.getIntComponent2(x, y);
+                var gray = Math.floor(red * 0.21 + green * 0.71 + blue * 0.08);
+
+                imageOut.setIntColor(x, y, gray, gray, gray);
+            }
+        }
+    }
+};
+
+const rotateFlipImage = (input: string) => {
+    let ctx: any = canvas.getContext("2d");
+    if (input === "rotate-left") {
+        console.log(input);
+    } else if (input === "rotate-right") {
+        console.log(input);
+    } else if (input === "flip-horizontal") {
+        ctx.direction = "rtl";
+    } else if (input === "flip-vertical") {
+        console.log(input);
     }
 };
 
