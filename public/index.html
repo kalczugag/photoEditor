@@ -14,7 +14,7 @@
             src="https://kit.fontawesome.com/827bc51ef5.js"
             crossorigin="anonymous"
         ></script>
-        <script src="../src/marvinj-1.0.js"></script>
+        <script src="reimg.js"></script>
     </head>
     <body>
         <div class="wrapper">
@@ -122,7 +122,9 @@
                         accept="image/*"
                         onchange="readURL(this)"
                     />
-                    <button id="button-img-save">SAVE IMAGE</button>
+                    <button id="button-img-save" onclick="download()">
+                        SAVE IMAGE
+                    </button>
                 </div>
             </footer>
         </div>

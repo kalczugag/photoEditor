@@ -125,34 +125,32 @@ const applyFilter = () => {
     // ctx.filter.grayscale(grayscaleValue);
 };
 const setupCanvas = (src) => {
-    const original = new MarvinImage();
-    // if (canvas.getContext) {
-    //     let ctx: any = canvas.getContext("2d");
-    //     ctx.canvas.width = window.innerWidth;
-    //     ctx.canvas.height = window.innerHeight;
-    //     const img = new Image();
-    //     img.onload = () => {
-    //         // (image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
-    //         ctx.drawImage(img, 0, 0, window.innerWidth, window.innerHeight);
-    //     };
-    //     img.src = src;
-    // }
-    const image = new MarvinImage(original.getWidth(), original.getHeight());
-    image.load(src, () => {
-        grayscale(original, image);
-        image.draw(canvas);
+    canvas.style.display = "block";
+    canvas.width = 650;
+    canvas.height = 400;
+    const ctx = canvas.getContext("2d");
+    let img = new Image();
+    img.addEventListener("load", () => {
+        drawImageScaled(img, ctx);
     });
-    function grayscale(imageIn, imageOut) {
-        for (var y = 0; y < imageIn.getHeight(); y++) {
-            for (var x = 0; x < imageIn.getWidth(); x++) {
-                var red = imageIn.getIntComponent0(x, y);
-                var green = imageIn.getIntComponent1(x, y);
-                var blue = imageIn.getIntComponent2(x, y);
-                var gray = Math.floor(red * 0.21 + green * 0.71 + blue * 0.08);
-                imageOut.setIntColor(x, y, gray, gray, gray);
-            }
-        }
-    }
+    img.src = src;
+    const drawImageScaled = (img, ctx) => {
+        const canvas = ctx.canvas;
+        const hRatio = canvas.width / img.width;
+        const vRatio = canvas.height / img.height;
+        const ratio = Math.min(hRatio, vRatio);
+        const centerShift_x = (canvas.width - img.width * ratio) / 2;
+        const centerShift_y = (canvas.height - img.height * ratio) / 2;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, img.width, img.height, centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+    };
+};
+const download = () => {
+    const downloadButton = document.getElementById("button-img-save");
+    const image = canvas
+        .toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+    downloadButton.setAttribute("href", image);
 };
 const rotateFlipImage = (input) => {
     let ctx = canvas.getContext("2d");
