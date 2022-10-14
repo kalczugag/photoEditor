@@ -29,6 +29,7 @@ const readURL = (input: HTMLInputElement) => {
     }
 };
 
+
 const filterButtons = (input: string) => {
     if (input === "brightness") {
         buttonsSet(brightBtn);
