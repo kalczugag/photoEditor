@@ -11,6 +11,7 @@ window.onload = () => {
     resetLocalStorageValues();
     getSliderValue(range.value);
 };
+let imgsa;
 const readURL = (input) => {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
@@ -19,6 +20,7 @@ const readURL = (input) => {
             (_a = document
                 .querySelector("#pre-image")) === null || _a === void 0 ? void 0 : _a.setAttribute("src", e.target.result);
             setupCanvas(e.target.result);
+            imgsa = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
     }
@@ -67,6 +69,7 @@ const buttonsReset = () => {
 const getSliderValue = (value) => {
     rangePercentDisplay.innerHTML = `${value}%`;
     applyFilter();
+    setupCanvas(imgsa);
     valuesToLocalStorage(range.getAttribute("data-filter"), range.value);
 };
 let brightnessValue = "";
@@ -106,24 +109,13 @@ const setFilterAttr = (element) => {
 const canvas = document.getElementById("filtered-image");
 const originalImage = document.getElementById("pre-image");
 const applyFilter = () => {
-    brightnessValue = JSON.parse(localStorage.getItem("brightness") || "{}");
-    saturationValue = JSON.parse(localStorage.getItem("saturate") || "{}");
-    inversionValue = JSON.parse(localStorage.getItem("invert") || "{}");
-    grayscaleValue = JSON.parse(localStorage.getItem("grayscale") || "{}");
-    let computedFilters = "";
-    computedFilters +=
-        range.getAttribute("data-filter") +
-            "(" +
-            range.value +
-            range.getAttribute("data-scale") +
-            ")";
-    originalImage.style.filter = computedFilters;
-    // let ctx: any = canvas.getContext("2d");
-    // ctx.filter.brightness(brightnessValue);
-    // ctx.filter.saturation(saturationValue);
-    // ctx.filter.inversion(inversionValue);
-    // ctx.filter.grayscale(grayscaleValue);
+    brightnessValue = `brightness(${JSON.parse(localStorage.getItem("brightness") || "{}")}%)`;
+    saturationValue = `saturate(${JSON.parse(localStorage.getItem("saturate") || "{}")}%)`;
+    inversionValue = `invert(${JSON.parse(localStorage.getItem("invert") || "{}")}%)`;
+    grayscaleValue = `grayscale(${JSON.parse(localStorage.getItem("grayscale") || "{}")}%)`;
+    return { brightnessValue, saturationValue, inversionValue, grayscaleValue };
 };
+console.log(applyFilter().brightnessValue, applyFilter().grayscaleValue);
 const setupCanvas = (src) => {
     canvas.style.display = "block";
     canvas.width = 650;
@@ -131,6 +123,10 @@ const setupCanvas = (src) => {
     const ctx = canvas.getContext("2d");
     let img = new Image();
     img.addEventListener("load", () => {
+        ctx.filter = applyFilter().brightnessValue;
+        ctx.filter = applyFilter().saturationValue;
+        ctx.filter = applyFilter().inversionValue;
+        ctx.filter = applyFilter().grayscaleValue;
         drawImageScaled(img, ctx);
     });
     img.src = src;
@@ -146,26 +142,13 @@ const setupCanvas = (src) => {
     };
 };
 const download = () => {
-    const downloadButton = document.getElementById("button-img-save");
     const image = canvas
-        .toDataURL("image/png")
+        .toDataURL("image/png", 1.0)
         .replace("image/png", "image/octet-stream");
-    downloadButton.setAttribute("href", image);
-};
-const rotateFlipImage = (input) => {
-    let ctx = canvas.getContext("2d");
-    if (input === "rotate-left") {
-        console.log(input);
-    }
-    else if (input === "rotate-right") {
-        console.log(input);
-    }
-    else if (input === "flip-horizontal") {
-        ctx.direction = "rtl";
-    }
-    else if (input === "flip-vertical") {
-        console.log(input);
-    }
+    const link = document.createElement("a");
+    link.download = "image.png";
+    link.href = image;
+    link.click();
 };
 const valuesToLocalStorage = (item, value) => {
     localStorage.setItem(`${item}`, JSON.stringify(value));
