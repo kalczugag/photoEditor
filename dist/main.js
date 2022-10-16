@@ -11,7 +11,6 @@ window.onload = () => {
     resetLocalStorageValues();
     getSliderValue(range.value);
 };
-let imgsa;
 const readURL = (input) => {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
@@ -20,9 +19,9 @@ const readURL = (input) => {
             (_a = document
                 .querySelector("#pre-image")) === null || _a === void 0 ? void 0 : _a.setAttribute("src", e.target.result);
             setupCanvas(e.target.result);
-            imgsa = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
+        originalImage.style.display = "block";
     }
 };
 const filterButtons = (input) => {
@@ -69,7 +68,7 @@ const buttonsReset = () => {
 const getSliderValue = (value) => {
     rangePercentDisplay.innerHTML = `${value}%`;
     applyFilter();
-    setupCanvas(imgsa);
+    setupCanvas(originalImage.src);
     valuesToLocalStorage(range.getAttribute("data-filter"), range.value);
 };
 let brightnessValue = "";
@@ -109,25 +108,21 @@ const setFilterAttr = (element) => {
 const canvas = document.getElementById("filtered-image");
 const originalImage = document.getElementById("pre-image");
 const applyFilter = () => {
-    brightnessValue = `brightness(${JSON.parse(localStorage.getItem("brightness") || "{}")}%)`;
-    saturationValue = `saturate(${JSON.parse(localStorage.getItem("saturate") || "{}")}%)`;
-    inversionValue = `invert(${JSON.parse(localStorage.getItem("invert") || "{}")}%)`;
-    grayscaleValue = `grayscale(${JSON.parse(localStorage.getItem("grayscale") || "{}")}%)`;
-    return { brightnessValue, saturationValue, inversionValue, grayscaleValue };
+    brightnessValue = JSON.parse(localStorage.getItem("brightness") || "{}");
+    saturationValue = JSON.parse(localStorage.getItem("saturate") || "{}");
+    inversionValue = JSON.parse(localStorage.getItem("invert") || "{}");
+    grayscaleValue = JSON.parse(localStorage.getItem("grayscale") || "{}");
+    originalImage.style.filter = `brightness(${brightnessValue}%) saturate(${saturationValue}%) invert(${inversionValue}%) grayscale(${grayscaleValue}%)`;
 };
-console.log(applyFilter().brightnessValue, applyFilter().grayscaleValue);
 const setupCanvas = (src) => {
-    canvas.style.display = "block";
-    canvas.width = 650;
-    canvas.height = 400;
+    canvas.width = 3656;
+    canvas.height = 2664;
     const ctx = canvas.getContext("2d");
     let img = new Image();
+    ctx.filter = originalImage.style.filter;
     img.addEventListener("load", () => {
-        ctx.filter = applyFilter().brightnessValue;
-        ctx.filter = applyFilter().saturationValue;
-        ctx.filter = applyFilter().inversionValue;
-        ctx.filter = applyFilter().grayscaleValue;
         drawImageScaled(img, ctx);
+        // ctx.drawImage(img, 0, 0);
     });
     img.src = src;
     const drawImageScaled = (img, ctx) => {
@@ -155,7 +150,7 @@ const valuesToLocalStorage = (item, value) => {
 };
 const resetLocalStorageValues = () => {
     localStorage.setItem("brightness", JSON.stringify("100"));
-    localStorage.setItem("saturate", JSON.stringify("1"));
+    localStorage.setItem("saturate", JSON.stringify("100"));
     localStorage.setItem("invert", JSON.stringify("0"));
     localStorage.setItem("grayscale", JSON.stringify("0"));
     rangeSelect.innerHTML = "Brightness";
