@@ -81,16 +81,6 @@
     align-items: center;
 }
 
-.rf-warning {
-    position: fixed;
-    top: 360px;
-    left: 355px;
-    color: red;
-    font-size: 180%;
-    font-weight: 700;
-    rotate: -6deg;
-}
-
 #rotate-left,
 #rotate-right,
 #flip-horizontal,
